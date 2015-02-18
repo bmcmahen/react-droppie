@@ -1,0 +1,40 @@
+{
+  "name": "react-droppie",
+  "version": "1.0.0",
+  "description": "Drag & drop, or click to select and display an image",
+  "main": "index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "keywords": [
+    "react",
+    "drop",
+    "image",
+    "upload"
+  ],
+  "author": "Ben McMahen",
+  "license": "MIT",
+  "dependencies": {
+    "component-file": "^0.1.1",
+    "component-file-picker": "^0.2.1",
+    "react-classset": "0.0.2"
+  },
+  "devDependencies": {
+    "browserify": "^8.1.1",
+    "expect.js": "^0.3.1",
+    "http-server": "^0.7.4",
+    "jquery": "^2.1.3",
+    "mocha": "^2.1.0",
+    "react": "^0.12.2",
+    "reactify": "^1.0.0",
+    "zuul": "^1.16.5"
+  },
+  "peerDependencies": {
+    "react": ">=0.12.0"
+  },
+  "browserify": {
+    "transform": [
+      ["reactify", {"es6": true }]
+    ]
+  }
+}
