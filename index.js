@@ -2,17 +2,24 @@
  * Module dependencies
  */
 
+'use strict';
+
+var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
+
+function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+
 var React = require('react');
 var Filepicker = require('component-file-picker');
 var File = require('component-file');
 var ClassSet = require('react-classset');
-var noop = function(){};
+var noop = function noop() {};
 
 /**
  * Toggle Image
  */
 
 var Droppie = React.createClass({
+  displayName: 'Droppie',
 
   propTypes: {
     image: React.PropTypes.string,
@@ -21,25 +28,37 @@ var Droppie = React.createClass({
     onError: React.PropTypes.func,
     showButton: React.PropTypes.string,
     filetypes: React.PropTypes.string,
-    error: React.PropTypes.string
+    error: React.PropTypes.string,
+    style: React.PropTypes.object,
+    buttonStyle: React.PropTypes.object,
+    errorStyle: React.PropTypes.object
   },
 
-  getDefaultProps: function() {
+  getDefaultProps: function getDefaultProps() {
     return {
       filetypes: 'image/*',
-      onError: noop
+      onError: noop,
+      style: {},
+      buttonStyle: {},
+      errorStyle: {}
     };
   },
 
-  getInitialState: function() {
+  getInitialState: function getInitialState() {
     return {
       onDragOver: false,
       error: false
     };
   },
 
-  render: function() {
-    var {className, image, title, ...other} = this.props;
+  render: function render() {
+    var _props = this.props;
+    var className = _props.className;
+    var image = _props.image;
+    var title = _props.title;
+    var style = _props.style;
+
+    var other = _objectWithoutProperties(_props, ['className', 'image', 'title', 'style']);
 
     var classes = ClassSet({
       'Droppie': true,
@@ -47,83 +66,87 @@ var Droppie = React.createClass({
       'has-image': image
     });
 
-    var style = {};
-
     if (image) {
-      style.backgroundImage = 'url('+ image + ')';
+      style.backgroundImage = 'url(' + image + ')';
     }
 
     // TODO: accessibility. Not sure how to handle this
-    // with a screenreader. 
-    return (
-      <div>
-        {this.props.error ? 
-          <div className='error'>{this.props.error}</div>
-          : null
-        }
-        <div {...other} 
-          className={classes}
-          role='image'
-          aria-label={this.props.alt || 'Image dropzone'}
-          style={style}
-          onDragEnter={this.onDragEnter}
-          onDragOver={this.onDragOver}
-          onDragLeave={this.onDragLeave}
-          onDrop={this.onDrop}
-        >
-        </div>
-        {this.props.showButton ? 
-          <button className='btn btn-small' onClick={this.onClick}>
-            {this.props.showButton}
-          </button>
-        : null }
-      </div>
+    // with a screenreader.
+    return React.createElement(
+      'div',
+      null,
+      this.props.error && React.createElement(
+        'div',
+        { style: this.props.errorStyle, className: 'error' },
+        this.props.error
+      ),
+      React.createElement('div', _extends({}, other, {
+        className: classes,
+        role: 'image',
+        'aria-label': this.props.alt || 'Image dropzone',
+        style: style,
+        onDragEnter: this.onDragEnter,
+        onDragOver: this.onDragOver,
+        onDragLeave: this.onDragLeave,
+        onDrop: this.onDrop
+      })),
+      this.props.showButton ? React.createElement(
+        'button',
+        { style: this.props.buttonStyle, className: 'btn btn-small', onClick: this.onClick },
+        this.props.showButton
+      ) : null
     );
   },
 
-  onDragEnter: function(e){
+  onDragEnter: function onDragEnter(e) {
     e.preventDefault();
     this.setState({ onDragOver: true });
   },
 
-  onDragOver: function(e){
+  onDragOver: function onDragOver(e) {
     e.preventDefault();
   },
 
-  onDragLeave: function(e){
+  onDragLeave: function onDragLeave(e) {
     this.setState({ onDragOver: false });
   },
 
-  remove: function(e){
+  remove: function remove(e) {
     this.props.onChange(null);
   },
 
-  onDrop: function(e){
+  onDrop: function onDrop(e) {
     this.setState({ onDragOver: false });
     e.preventDefault();
     this.getFile(e.dataTransfer.files[0]);
   },
 
-  onClick: function(e){
+  onClick: function onClick(e) {
+    var _this = this;
+
     e.preventDefault();
-    Filepicker(files => this.getFile(files[0]));
+    Filepicker(function (files) {
+      return _this.getFile(files[0]);
+    });
   },
 
-  getFile: function(file){
+  getFile: function getFile(file) {
+    var _this2 = this;
+
     var image = new File(file);
 
     if (!image.is(this.props.filetypes)) {
       this.props.onError('This file type is not supported.');
       return;
     }
-    
-    image.toDataURL((err, str) => {
+
+    image.toDataURL(function (err, str) {
       if (err) {
-        this.props.onError('Error loading image.', err);
+        _this2.props.onError('Error loading image.', err);
         return;
       }
 
-      this.props.onChange(str, file);
+      _this2.props.onChange(str, file);
     });
   }
 
