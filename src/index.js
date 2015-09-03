@@ -54,7 +54,11 @@ var Droppie = React.createClass({
     });
 
     if (image) {
-      style.backgroundImage = 'url('+ image + ')';
+      let styles = Object.assign(
+        {},
+        style,
+        { backgroundImage: 'url(${image})' }
+      )
     }
 
     // TODO: accessibility. Not sure how to handle this
