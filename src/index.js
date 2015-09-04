@@ -57,7 +57,7 @@ var Droppie = React.createClass({
       let styles = Object.assign(
         {},
         style,
-        { backgroundImage: 'url(${image})' }
+        { backgroundImage: `url(${image})` }
       )
     }
 
@@ -74,7 +74,7 @@ var Droppie = React.createClass({
           className={classes}
           role='image'
           aria-label={this.props.alt || 'Image dropzone'}
-          style={style}
+          style={styles}
           onDragEnter={this.onDragEnter}
           onDragOver={this.onDragOver}
           onDragLeave={this.onDragLeave}

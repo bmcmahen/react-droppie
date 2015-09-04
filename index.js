@@ -67,7 +67,7 @@ var Droppie = React.createClass({
     });
 
     if (image) {
-      var styles = Object.assign({}, style, { backgroundImage: 'url(${image})' });
+      var _styles = Object.assign({}, style, { backgroundImage: 'url(' + image + ')' });
     }
 
     // TODO: accessibility. Not sure how to handle this
@@ -84,7 +84,7 @@ var Droppie = React.createClass({
         className: classes,
         role: 'image',
         'aria-label': this.props.alt || 'Image dropzone',
-        style: style,
+        style: styles,
         onDragEnter: this.onDragEnter,
         onDragOver: this.onDragOver,
         onDragLeave: this.onDragLeave,
