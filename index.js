@@ -60,6 +60,8 @@ var Droppie = React.createClass({
 
     var other = _objectWithoutProperties(_props, ['className', 'image', 'title', 'style']);
 
+    var styles = {};
+
     var classes = ClassSet({
       'Droppie': true,
       'on-drag-over': this.state.onDragOver,
@@ -67,7 +69,7 @@ var Droppie = React.createClass({
     });
 
     if (image) {
-      var _styles = Object.assign({}, style, { backgroundImage: 'url(' + image + ')' });
+      styles = Object.assign({}, style, { backgroundImage: 'url(' + image + ')' });
     }
 
     // TODO: accessibility. Not sure how to handle this

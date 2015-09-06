@@ -46,6 +46,7 @@ var Droppie = React.createClass({
 
   render: function() {
     var {className, image, title, style, ...other} = this.props;
+    var styles = {}
 
     var classes = ClassSet({
       'Droppie': true,
@@ -54,7 +55,7 @@ var Droppie = React.createClass({
     });
 
     if (image) {
-      let styles = Object.assign(
+      styles = Object.assign(
         {},
         style,
         { backgroundImage: `url(${image})` }
